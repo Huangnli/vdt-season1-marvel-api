@@ -20,7 +20,7 @@ describe('POST /characters', function(){
             active: true
         }
 
-        cy.request({
+        cy.api({
             method: 'POST',
             url: '/characters',
             body: character,
