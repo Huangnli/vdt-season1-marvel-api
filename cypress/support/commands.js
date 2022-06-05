@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('setToken', function(){
+Cypress.Commands.add('setToken', function () {
     cy.api({
         method: 'POST',
         url: '/sessions',
@@ -32,17 +32,32 @@ Cypress.Commands.add('setToken', function(){
             email: 'huang@qacademy.io',
             password: 'qa-cademy'
         }
-    }).then(function(response){
+    }).then(function (response) {
         expect(response.status).to.eql(200)
         Cypress.env('token', response.body.token) //Adicionado o valor
     })
 })
 
-Cypress.Commands.add('back2ThePast', function(){
+Cypress.Commands.add('back2ThePast', function () {
     cy.api({
         method: 'DELETE',
         url: '/back2thepast/6297b0df6791aa00161c9677'
-    }).then(function(response){
+    }).then(function (response) {
         expect(response.status).to.eql(200)
+    })
+})
+
+//POST - Requisição que testa o cadastro de um personagem
+Cypress.Commands.add('postCharacter', function (payLoad) {
+    cy.api({
+        method: 'POST',
+        url: '/characters',
+        body: payLoad,
+        headers: {
+            Authorization: Cypress.env('token') //Obtendo o valor
+        },
+        failOnStatusCode: false
+    }).then(function (response) {
+        return response
     })
 })
